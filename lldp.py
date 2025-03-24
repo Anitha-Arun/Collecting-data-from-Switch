@@ -97,20 +97,22 @@ def extract_lldp_info(output):
     system_name_pattern = re.compile(r'System Name:\s+(\S+)')
     serial_number_pattern = re.compile(r'Serial number:\s+(\S+)')
     model_name_pattern = re.compile(r'Model name:\s+(\S+)')
+    management_address_pattern = re.compile(r'Management Address:\s+(\S+)')
 
     return {
         'Device ID': re.search(device_id_pattern, output).group(1) if re.search(device_id_pattern, output) else None,
         'Port ID': re.search(port_id_pattern, output).group(1) if re.search(port_id_pattern, output) else None,
         'System Name': re.search(system_name_pattern, output).group(1) if re.search(system_name_pattern, output) else None,
         'Serial Number': re.search(serial_number_pattern, output).group(1) if re.search(serial_number_pattern, output) else None,
-        'Model Name': re.search(model_name_pattern, output).group(1) if re.search(model_name_pattern, output) else None
+        'Model Name': re.search(model_name_pattern, output).group(1) if re.search(model_name_pattern, output) else None,
+        'Management Address': re.search(management_address_pattern, output).group(1) if re.search(management_address_pattern, output) else None
     }
 
 def save_to_csv(data, filename='lldp_info.csv'):
     """
     Save extracted LLDP information to a CSV file
     """
-    fieldnames = ['Host', 'Device ID', 'Port ID', 'System Name', 'Serial Number', 'Model Name']
+    fieldnames = ['Host', 'Device ID', 'Port ID', 'System Name', 'Serial Number', 'Model Name', 'Management Address']
     
     with open(filename, mode='a', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
